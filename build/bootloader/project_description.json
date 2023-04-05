@@ -1,0 +1,25 @@
+{
+    "project_name":       "bootloader",
+    "project_path":       "/home/parker/esp/esp-idf/components/bootloader/subproject",
+    "build_dir":          "/home/parker/projects/QSPI-Amoled/build/bootloader",
+    "config_file":        "/home/parker/projects/QSPI-Amoled/sdkconfig",
+    "config_defaults":    "",
+    "bootloader_elf":     "",
+    "app_elf":            "bootloader.elf",
+    "app_bin":            "bootloader.bin",
+    "git_revision":       "v5.0.1",
+    "target":             "esp32s3",
+    "rev":                "",
+    "min_rev":            "0",
+    "max_rev":            "99",
+    "phy_data_partition": "",
+    "monitor_baud" :      "115200",
+    "monitor_toolprefix": "xtensa-esp32s3-elf-",
+    "config_environment" : {
+        "COMPONENT_KCONFIGS" : "/home/parker/esp/esp-idf/components/efuse/Kconfig;/home/parker/esp/esp-idf/components/esp_common/Kconfig;/home/parker/esp/esp-idf/components/esp_hw_support/Kconfig;/home/parker/esp/esp-idf/components/esp_system/Kconfig;/home/parker/esp/esp-idf/components/freertos/Kconfig;/home/parker/esp/esp-idf/components/hal/Kconfig;/home/parker/esp/esp-idf/components/log/Kconfig;/home/parker/esp/esp-idf/components/newlib/Kconfig;/home/parker/esp/esp-idf/components/spi_flash/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : "/home/parker/esp/esp-idf/components/bootloader/Kconfig.projbuild;/home/parker/esp/esp-idf/components/esp_app_format/Kconfig.projbuild;/home/parker/esp/esp-idf/components/esp_rom/Kconfig.projbuild;/home/parker/esp/esp-idf/components/esptool_py/Kconfig.projbuild;/home/parker/esp/esp-idf/components/partition_table/Kconfig.projbuild"
+    },
+    "build_components" : [ "bootloader", "bootloader_support", "efuse", "esp_app_format", "esp_common", "esp_hw_support", "esp_rom", "esp_system", "esptool_py", "freertos", "hal", "log", "main", "micro-ecc", "newlib", "partition_table", "soc", "spi_flash", "xtensa", "" ],
+    "build_component_paths" : [ "/home/parker/esp/esp-idf/components/bootloader", "/home/parker/esp/esp-idf/components/bootloader_support", "/home/parker/esp/esp-idf/components/efuse", "/home/parker/esp/esp-idf/components/esp_app_format", "/home/parker/esp/esp-idf/components/esp_common", "/home/parker/esp/esp-idf/components/esp_hw_support", "/home/parker/esp/esp-idf/components/esp_rom", "/home/parker/esp/esp-idf/components/esp_system", "/home/parker/esp/esp-idf/components/esptool_py", "/home/parker/esp/esp-idf/components/freertos", "/home/parker/esp/esp-idf/components/hal", "/home/parker/esp/esp-idf/components/log", "/home/parker/esp/esp-idf/components/bootloader/subproject/main", "/home/parker/esp/esp-idf/components/bootloader/subproject/components/micro-ecc", "/home/parker/esp/esp-idf/components/newlib", "/home/parker/esp/esp-idf/components/partition_table", "/home/parker/esp/esp-idf/components/soc", "/home/parker/esp/esp-idf/components/spi_flash", "/home/parker/esp/esp-idf/components/xtensa", "" ],
+    "debug_prefix_map_gdbinit": ""
+}
