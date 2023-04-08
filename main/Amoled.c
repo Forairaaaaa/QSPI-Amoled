@@ -353,42 +353,478 @@ uint16_t rgb888_2_rgb565(uint32_t color)
 
 
 
+// void app_main()
+// {
+
+//     gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
+
+//     gpio_set_direction(LCD_CS, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_CS, GPIO_PULLUP_ONLY);
+
+//     gpio_set_direction(LCD_I2, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_I2, GPIO_PULLUP_ONLY);
+
+//     gpio_set_direction(LCD_I3, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_I3, GPIO_PULLUP_ONLY);
+
+//     gpio_set_direction(LCD_CLK, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_CLK, GPIO_PULLUP_ONLY);
+
+//     gpio_set_direction(LCD_I1, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_I1, GPIO_PULLUP_ONLY);
+
+//     gpio_set_direction(LCD_IO0, GPIO_MODE_OUTPUT);
+//     gpio_set_pull_mode(LCD_IO0, GPIO_PULLUP_ONLY);
+
+
+
+
+//     gpio_set_level(LCD_RST, 0);
+//     delay(10);
+//     gpio_set_level(LCD_RST, 1);
+
+
+
+
+
+//     DO0180FS01_Init();
+
+
+//     // DM_Clear(0xFFFF);
+
+
+//     uint32_t color_list[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF};
+//     int color_num = sizeof(color_list) / sizeof(uint32_t);
+
+//     uint32_t color_list2[] = {
+//         0xfff799, 0xffee6f, 0xecd452, 0xb6a014,
+//         0xd5ebe1, 0xb1d5c8, 0x99bcac, 0x80a492,
+//         0x8b7042, 0x775039, 0x5f4321, 0x422517,
+//         0xf3a694, 0xee7959, 0xba5140, 0xc12c1f
+//     };
+//     int color2_num = sizeof(color_list) / sizeof(uint32_t);
+
+//     uint32_t color_list3[] = {
+//         0x88abda, 0x6f94cd, 0x5976ba, 0x2e59a7,
+//         0x98b6c2, 0x7f9faf, 0x66889e, 0x547689,
+//         0xefefef, 0xd8d1c5, 0xc6beb1, 0xac9f8a,
+//         0xc0d09d, 0x938f4c, 0x7f754c, 0x595333
+//     };
+
+
+//     while (1)
+//     {   
+        
+
+//         // #define COL 368
+//         // #define ROW 448
+//         for (int i = 0; i < 16; i++) {
+//             printf("COLOR: 0x%lX 0x%X\n", color_list2[i], rgb888_2_rgb565(color_list2[i]));
+//             DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
+
+//         }
+//         delay(1000);
+
+//         for (int i = 0; i < 16; i++) {
+//             printf("COLOR: 0x%lX 0x%X\n", color_list3[i], rgb888_2_rgb565(color_list3[i]));
+//             DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list3[i]));
+
+//         }
+//         delay(1000);
+
+
+
+//         DM_Clear(0);
+//         uint32_t color = 0;
+//         for (int i = 0; i < 0xFF; i++) {
+//             color = (i << 16) | (i << 8) | i;
+//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
+//             DM_display(0, 367, i * 1, i * 1 + 2, rgb888_2_rgb565(color));
+
+//         }
+//         for (int i = 255; i > 0; i--) {
+//             color = (i << 16) | (i << 8) | i;
+//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
+//             DM_display(0, 367, i * 1 + 256, i * 1 + 2 + 256, rgb888_2_rgb565(color));
+
+//         }
+
+//         delay(1000);
+
+//         DM_Clear(0);
+//         for (int i = 0; i < 0xFF; i++) {
+//             color = (i << 16) | (i << 8) | i;
+//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
+//             DM_display(i * 1, i * 1 + 2, 0, 800, rgb888_2_rgb565(color));
+
+//         }
+//         for (int i = 255; i > 0; i--) {
+//             color = (i << 16) | (i << 8) | i;
+//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
+//             DM_display(i * 1 + 256, i * 1 + 2 + 256, 0, 800, rgb888_2_rgb565(color));
+
+//         }
+
+//         delay(1000);
+
+
+//         // for (int i = 0; i < color_num; i++) {
+//         //     printf("COLOR: 0x%lX 0x%X\n", color_list[i], rgb888_2_rgb565(color_list[i]));
+//         //     DM_Clear(rgb888_2_rgb565(color_list[i]));
+//         //     delay(1000);
+//         // }
+
+//     }
+
+
+
+
+
+
+
+
+//     while (1)
+//     {
+//         printf("6\n");
+
+//         delay(5000);
+
+
+//     }
+    
+// }
+
+
+
+
+
+
+
+
+// void __SPI_1L_SendData(uint16_t dat)
+// {  
+//   unsigned char i;
+
+//    for(i=0; i<8; i++)			
+//    {   
+//       if( (dat&0x80)!=0 ) SPI_SDA1;
+//       else                SPI_SDA0;
+
+// 		dat  <<= 1;
+
+// 	  SPI_SCL0;//delay_us(2);
+//     SPI_SCL1;	
+		 
+//    }
+	 
+// }
+
+// void __SPI_WriteComm(uint16_t regval)
+// { 
+//     SPI_1L_SendData(0x02);
+//     SPI_1L_SendData(0x00);
+//     SPI_1L_SendData(regval);
+//     SPI_1L_SendData(0x00);//delay_us(2);
+// }
+
+
+
+// static const uint8_t display_cmd[][4] = {
+//     {0x02, 0x00, 0x11, 0x00},
+//     {0x02, 0x00, 0x00, 0x00},
+// }
+
+
+
+
+
+void send_cmd(spi_device_handle_t spi, const uint8_t cmd, bool keep_cs_active)
+{
+    esp_err_t ret;
+    spi_transaction_t t;
+    memset(&t, 0, sizeof(t));
+
+    t.length    = 8;
+    t.tx_buffer = &cmd;
+
+    if (keep_cs_active) {
+        t.flags = SPI_TRANS_CS_KEEP_ACTIVE;
+    }
+
+    /* Transmit */
+    ret = spi_device_polling_transmit(spi, &t);
+
+    assert(ret == ESP_OK);
+}
+
+
+void send_data(spi_device_handle_t spi, const uint8_t *data, int len, bool keep_cs_active)
+{
+    esp_err_t ret;
+    spi_transaction_t t;
+
+    if (len==0) return;
+    memset(&t, 0, sizeof(t));
+
+    t.length    = len * 8;
+    t.tx_buffer = data;
+
+    if (keep_cs_active) {
+        t.flags = SPI_TRANS_CS_KEEP_ACTIVE;
+    }
+
+
+    /* Transmit */
+    ret = spi_device_polling_transmit(spi, &t);
+
+
+    assert(ret == ESP_OK);
+}
+
+
+void display_send_cmd(spi_device_handle_t spi, const uint8_t cmd, bool keep_cs_active)
+{
+    // SPI_1L_SendData(0x02);
+    // SPI_1L_SendData(0x00);
+    // SPI_1L_SendData(regval);
+    // SPI_1L_SendData(0x00);//delay_us(2);
+    send_cmd(spi, 0x02, true);
+    send_cmd(spi, 0x00, true);
+    send_cmd(spi, cmd, true);
+    send_cmd(spi, 0x00, keep_cs_active);
+}
+
+
+
+
+
+
+
+#define USE_SPI     1
+
+
 void app_main()
 {
+    #if USE_SPI
 
+    esp_err_t ret;
+    spi_device_handle_t spi;
+    spi_bus_config_t buscfg = {
+        // .miso_io_num=PIN_NUM_MISO,
+        // .mosi_io_num=PIN_NUM_MOSI,
+        // .sclk_io_num=PIN_NUM_CLK,
+        // .quadwp_io_num=-1,
+        // .quadhd_io_num=-1,
+        // .max_transfer_sz=PARALLEL_LINES*320*2+8
+
+
+
+        .data0_io_num   = LCD_IO0,
+        .data1_io_num   = LCD_I1,
+        .data2_io_num   = LCD_I2,
+        .data3_io_num   = LCD_I3,
+        .sclk_io_num    = LCD_CLK,
+        .flags          = SPICOMMON_BUSFLAG_QUAD,
+
+        // .data0_io_num   = LCD_IO0,
+        // .data1_io_num   = LCD_I1,
+        // .data2_io_num   = -1,
+        // .data3_io_num   = -1,
+        // .sclk_io_num    = LCD_CLK,
+
+    };
+
+    spi_device_interface_config_t devcfg = {
+        // .clock_speed_hz=10*1000*1000,           //Clock out at 10 MHz
+        // .mode=0,                                //SPI mode 0
+        // .spics_io_num=PIN_NUM_CS,               //CS pin
+        // .queue_size=7,                          //We want to be able to queue 7 transactions at a time
+        // .pre_cb=lcd_spi_pre_transfer_callback,  //Specify pre-transfer callback to handle D/C line
+
+
+        .clock_speed_hz = 1*1000*1000,
+        .mode           = 0,
+        .spics_io_num   = LCD_CS,
+        // .spics_io_num   = -1,
+        .queue_size     = 7,
+
+
+
+    };
+
+
+
+
+    //Initialize the SPI bus
+    ret = spi_bus_initialize(SPI2_HOST, &buscfg, SPI_DMA_CH_AUTO);
+    ESP_ERROR_CHECK(ret);
+
+
+    //Attach the LCD to the SPI bus
+    ret = spi_bus_add_device(SPI2_HOST, &devcfg, &spi);
+    ESP_ERROR_CHECK(ret);
+
+
+
+
+
+
+
+    /* Reset display */
     gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
+    gpio_set_level(LCD_RST, 0);
+    delay(10);
+    gpio_set_level(LCD_RST, 1);
+    delay(10);
 
+
+
+
+    spi_device_acquire_bus(spi, portMAX_DELAY);
+
+
+    
+
+
+
+    // gpio_reset_pin(LCD_CS);
+    // gpio_set_direction(LCD_CS, GPIO_MODE_OUTPUT);
+    // gpio_set_pull_mode(LCD_CS, GPIO_PULLUP_ONLY);
+
+
+
+    /* Sleep out */
+    // SPI_CS0;
+    display_send_cmd(spi, 0x11, false);
+    // SPI_CS1;
+    delay(120);
+
+    // SPI_CS0;
+    display_send_cmd(spi, 0x44, true);
+    send_cmd(spi, 0x01, true);
+    send_cmd(spi, 0x66, false);
+    // SPI_CS1;
+
+
+    /* TE ON */
+    // SPI_CS0;
+    display_send_cmd(spi, 0x35, true);
+    send_cmd(spi, 0x00, false);
+    // SPI_CS1;
+
+
+    /* Interface Pixel Format 16bit/pixel */
+    // SPI_CS0;
+    display_send_cmd(spi, 0x3A, true);
+    send_cmd(spi, 0x55, false);
+    // SPI_CS1;
+
+
+    // SPI_CS0;
+    display_send_cmd(spi, 0x53, true);
+    send_cmd(spi, 0x20, false);
+    // SPI_CS1;
+    delay(10);
+    
+
+    /* Write Display Brightness	MAX_VAL=0XFF */
+    // SPI_CS0;
+    display_send_cmd(spi, 0x51, true);
+    send_cmd(spi, 0x00, false);
+    // SPI_CS1;
+    delay(10);
+
+
+    /* Display ON */
+    // SPI_CS0;
+    display_send_cmd(spi, 0x29, false);
+    // SPI_CS1;
+    delay(10);
+
+
+    /* Write Display Brightness	MAX_VAL=0XFF */
+    // SPI_CS0;
+    display_send_cmd(spi, 0x51, true);
+    send_cmd(spi, 0xFF, false);
+    // SPI_CS1;
+
+
+    
+    spi_device_release_bus(spi);
+
+    // delay(100);
+
+
+    spi_bus_remove_device(spi);
+    spi_bus_free(SPI2_HOST);
+
+
+    #endif 
+
+
+
+
+
+
+
+
+
+
+    
+
+    gpio_reset_pin(LCD_CS);
     gpio_set_direction(LCD_CS, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_CS, GPIO_PULLUP_ONLY);
 
+    gpio_reset_pin(LCD_I2);
     gpio_set_direction(LCD_I2, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_I2, GPIO_PULLUP_ONLY);
 
+    gpio_reset_pin(LCD_I3);
     gpio_set_direction(LCD_I3, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_I3, GPIO_PULLUP_ONLY);
 
+    gpio_reset_pin(LCD_CLK);
     gpio_set_direction(LCD_CLK, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_CLK, GPIO_PULLUP_ONLY);
 
+    gpio_reset_pin(LCD_I1);
     gpio_set_direction(LCD_I1, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_I1, GPIO_PULLUP_ONLY);
 
+    gpio_reset_pin(LCD_IO0);
     gpio_set_direction(LCD_IO0, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LCD_IO0, GPIO_PULLUP_ONLY);
 
 
-
-
+    #if USE_SPI
+    #else
+    gpio_reset_pin(LCD_RST);
+    gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
+    gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
     gpio_set_level(LCD_RST, 0);
     delay(10);
     gpio_set_level(LCD_RST, 1);
 
-
-
-
-
     DO0180FS01_Init();
+    #endif
+
+
+
+    // delay(200);
+    // gpio_reset_pin(LCD_RST);
+    // gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
+    // gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
+    // gpio_set_level(LCD_RST, 0);
+    // delay(10);
+    // gpio_set_level(LCD_RST, 1);
+
+    // DO0180FS01_Init();
+    // while (1);
+
+
 
 
     // DM_Clear(0xFFFF);
@@ -425,6 +861,7 @@ void app_main()
 
         }
         delay(1000);
+        // while (1);
 
         for (int i = 0; i < 16; i++) {
             printf("COLOR: 0x%lX 0x%X\n", color_list3[i], rgb888_2_rgb565(color_list3[i]));
@@ -477,204 +914,6 @@ void app_main()
 
     }
 
-
-
-
-
-
-
-
-    while (1)
-    {
-        printf("6\n");
-
-        delay(5000);
-
-
-    }
-    
 }
-
-
-
-
-
-// static uint8_t _cmd[] = {0x02, 0x00, 0x00, 0x00};
-
-// void lcd_write_cmd(spi_device_handle_t spi, uint8_t cmd)
-// {
-//     spi_device_acquire_bus(spi, portMAX_DELAY);
-//     spi_transaction_t t;
-//     memset(&t, 0, sizeof(t));
-
-//     // static uint8_t _data[] = {0x02, 0x00, 0x00, 0x00};
-//     _cmd[2] = cmd;
-
-//     t.length = 32;
-//     t.tx_buffer = _cmd;
-    
-//     ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &t));
-
-//     spi_device_release_bus(spi);
-// }
-
-
-// static uint8_t _data = 0x00;
-
-// void lcd_write_data(spi_device_handle_t spi, uint8_t data)
-// {
-//     spi_device_acquire_bus(spi, portMAX_DELAY);
-//     spi_transaction_t t;
-//     memset(&t, 0, sizeof(t));
-
-//     _data = data;
-
-//     t.length = 8;
-//     t.tx_buffer = &_data;
-    
-//     ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &t));
-
-//     spi_device_release_bus(spi);
-// }
-
-
-
-// void qspi_init()
-// {
-//     gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
-//     gpio_set_direction(LCD_CS, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_CS, GPIO_PULLUP_ONLY);
-
-
-//     spi_device_handle_t spi;
-
-//     spi_bus_config_t buscfg={
-//         .data0_io_num       = LCD_IO0,
-//         .data1_io_num       = LCD_I1,
-//         .sclk_io_num        = LCD_CLK,
-//         .data2_io_num       = LCD_I2,
-//         .data3_io_num       = LCD_I3,
-//         // .flags              = SPICOMMON_BUSFLAG_QUAD,
-//         // .max_transfer_sz    = PARALLEL_LINES*320*2+8
-//     };
-//     // spi_bus_config_t buscfg;
-//     // buscfg.data0_io_num       = LCD_IO0;
-//     // buscfg.data1_io_num       = LCD_I1;
-//     // buscfg.sclk_io_num        = LCD_CLK;
-//     // buscfg.data2_io_num       = LCD_I2;
-//     // buscfg.data3_io_num       = LCD_I3;
-//     // buscfg.intr_flags         = ESP_INTR_FLAG_IRAM;
-
-//     spi_device_interface_config_t devcfg={
-//         .clock_speed_hz=10*1000*1000,           //Clock out at 10 MHz
-//         .mode=0,                                //SPI mode 0
-//         // .spics_io_num       = LCD_CS,           //CS pin
-//         .spics_io_num       = -1,           //CS pin
-//         .queue_size=7,                          //We want to be able to queue 7 transactions at a time
-//         // .pre_cb=lcd_spi_pre_transfer_callback,  //Specify pre-transfer callback to handle D/C line
-//     };
-//     // spi_device_interface_config_t devcfg;
-//     // devcfg.clock_speed_hz=10*1000*1000;
-//     // devcfg.mode=0;
-//     // devcfg.spics_io_num       = -1;
-//     // devcfg.queue_size=7;
-
-
-//     ESP_ERROR_CHECK(spi_bus_initialize(SPI2_HOST, &buscfg, SPI_DMA_CH_AUTO));
-//     ESP_ERROR_CHECK(spi_bus_add_device(SPI2_HOST, &devcfg, &spi));
-
-
-
-
-
-
-
-    
-    
-//     gpio_set_level(LCD_RST, 0);
-//     delay(100);
-//     gpio_set_level(LCD_RST, 1);
-//     delay(100);
-
-
-
-//     /* Sleep out */
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x11);
-//     LCD_CS_DIS();
-
-//     delay(120);
-
-
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x44);
-//     lcd_write_data(spi, 0x01);
-//     lcd_write_data(spi, 0x66);
-//     LCD_CS_DIS();
-
-
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x35);
-//     lcd_write_data(spi, 0x00);
-//     LCD_CS_DIS();
-
-
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x3A);
-//     lcd_write_data(spi, 0x55);
-//     LCD_CS_DIS();
-
-
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x53);
-//     lcd_write_data(spi, 0x20);
-//     LCD_CS_DIS();
-
-//     delay(10);
-
-
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x51);
-//     lcd_write_data(spi, 0x00);
-//     LCD_CS_DIS();
-
-//     delay(10);
-
-//     /* Display on */
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x29);
-//     LCD_CS_DIS();
-
-//     delay(10);
-
-
-
-//     LCD_CS_EN();
-//     lcd_write_cmd(spi, 0x51);
-//     lcd_write_data(spi, 0xFF);
-//     LCD_CS_DIS();
-
-
-
-// }
-
-
-
-// void app_main()
-// {
-//     // qspi_init();
-
-
-//     while (1)
-//     {
-//         printf("6\n");
-
-//         delay(5000);
-
-
-//     }
-    
-// }
 
 
