@@ -606,10 +606,12 @@ void send_cmd_qspi(spi_device_handle_t spi, const uint8_t cmd, bool keep_cs_acti
 }
 
 
-void send_data_qspi(spi_device_handle_t spi, const uint16_t *data, int len, bool keep_cs_active)
+void send_data_qspi(spi_device_handle_t spi, const uint8_t *data, int len, bool keep_cs_active)
 {
     esp_err_t ret;
     spi_transaction_t t;
+
+    // printf("%d\n", len);
 
     if (len==0) return;
     memset(&t, 0, sizeof(t));
@@ -722,7 +724,8 @@ void display_write_block(spi_device_handle_t spi, uint16_t Xstart,uint16_t Xend,
 
 // #define COL 368
 // #define ROW 448
-static uint8_t* _full_databuffer;
+static uint16_t* _full_databuffer;
+
 
 
 void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend, uint16_t Ystart, uint16_t Yend, uint16_t color)
@@ -748,17 +751,10 @@ void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend,
 
 
 
-    display_write_block(spi, Xstart, Xend, Ystart, Yend);
+    // display_write_block(spi, Xstart, Xend, Ystart, Yend);
     // display_write_block(spi, 0,COL-1,0,ROW-1);
 
 
-
-
-    // // SPI_4wire_data_1wire_Addr(0x32,0x2C);
-    // // SPI_1L_SendData(First_Byte);//
-    // // SPI_1L_SendData(0x00);
-    // // SPI_1L_SendData(Addr);
-    // // SPI_1L_SendData(0x00);//PA
 
     // /* Begin qspi */
     // send_cmd(spi, 0x32, true);
@@ -793,19 +789,12 @@ void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend,
     //         send_data_qspi(spi, &data_buffer, 1, true);
 
     //         shit++;
+    //         shit++;
 
     //     }
     // }
 
     // printf("%d\n", shit);
-
-    // // SPI_4W_DATA_1W_ADDR_END();
-    // // SPI_4wire_data_1wire_Addr(0x32,0x00);
-    // // SPI_1L_SendData(First_Byte);//
-    // // SPI_1L_SendData(0x00);
-    // // SPI_1L_SendData(Addr);
-    // // SPI_1L_SendData(0x00);//PA
-
 
     // /* Stop qspi */
     // send_cmd(spi, 0x32, true);
@@ -814,27 +803,52 @@ void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend,
     // send_cmd(spi, 0x00, false);
 
 
+    // delay(100);
 
+
+
+
+
+
+
+
+    // display_write_block(spi, 0, 200, 0, 200);
+    // display_write_block(spi, Xstart + 100, Xend + 100, Ystart, Yend);
+
+    /* To eliminate gaps, don't know why */
+    Yend += 2;
+    display_write_block(spi, Xstart, Xend, Ystart, Yend);
 
 
     /* Begin qspi */
     uint8_t begin_cmd[] = {0x32, 0x00, 0x2C, 0x00};
     send_data(spi, begin_cmd, 4, true);
 
+
     int data_size = (Xend - Xstart) * (Yend - Ystart);
-    printf("%d\n", data_size);
+    // printf("%d\n", data_size * 2);
 
+    /* Store color in big endian */
+    for (int i = 0; i < data_size; i++) {
+        _full_databuffer[i] = (color >> 8) | (color << 8);
 
-    for (int i = 0; i < (data_size * 2); i += 2) {
-        // _full_databuffer[i] = (color >> 8) | (color << 8);
-
-        _full_databuffer[i] = color >> 8;
-        _full_databuffer[i + 1] = color;
+        // _full_databuffer[i] = color >> 8;
+        // _full_databuffer[i + 1] = color;
     }
-    
-    send_data_qspi(spi, _full_databuffer, data_size * 2, false);
 
+    /* Can only send 16000 * 2 each time, don't know why */
+    int div_num      = data_size / 16000;
+    int div_last_num = data_size % 16000;
+    // printf("%d %d\n", div_num, div_last_num);
 
+    for (int i = 0; i < div_num; i++) {
+        send_data_qspi(spi, _full_databuffer, 16000 * 2, true);
+    }
+    if (div_last_num != 0) {
+        send_data_qspi(spi, _full_databuffer, div_last_num * 2, true);
+    }
+
+    /* Stop qspi */
     begin_cmd[2] = 0x00;
     send_data(spi, begin_cmd, 4, false);
 
@@ -856,9 +870,9 @@ void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend,
 void app_main()
 {
 
-    _full_databuffer = (uint8_t*)heap_caps_malloc(COL * ROW * sizeof(uint16_t), MALLOC_CAP_SPIRAM);
+    _full_databuffer = (uint16_t*)heap_caps_malloc(COL * ROW * sizeof(uint16_t), MALLOC_CAP_SPIRAM);
 
-
+    // SOC_SPI_MAXIMUM_BUFFER_SIZE
 
     #if USE_SPI
 
@@ -881,7 +895,8 @@ void app_main()
         .sclk_io_num        = LCD_CLK,
         .flags              = SPICOMMON_BUSFLAG_QUAD,
         // .max_transfer_sz    = COL * ROW * sizeof(uint16_t),
-        .max_transfer_sz    = 329728 * 2,
+        // .max_transfer_sz    = 329728 * 2,
+        .max_transfer_sz    = 16000 * 2,
 
         // .data0_io_num   = LCD_IO0,
         // .data1_io_num   = LCD_I1,
@@ -899,7 +914,8 @@ void app_main()
         // .pre_cb=lcd_spi_pre_transfer_callback,  //Specify pre-transfer callback to handle D/C line
 
         // .clock_speed_hz = 1*1000,
-        .clock_speed_hz = 1*1000*1000,
+        // .clock_speed_hz = 1*1000*1000,
+        .clock_speed_hz = SPI_MASTER_FREQ_40M,
         // .clock_speed_hz = SPI_MASTER_FREQ_80M,
         .mode           = 1,
         .spics_io_num   = LCD_CS,
@@ -1043,23 +1059,26 @@ void app_main()
     };
 
 
-    while (1) {
-        for (int i = 0; i < color_num; i++) {
-            printf("COLOR: 0x%lX 0x%X\n", color_list[i], rgb888_2_rgb565(color_list[i]));
-            // DM_Clear(rgb888_2_rgb565(color_list[i]));
-            display_push_color(spi, 0, 200, 0, 400, rgb888_2_rgb565(color_list[i]));
-            // display_push_color(spi, 0, 360, 0, 440, rgb888_2_rgb565(color_list[i]));
-            delay(800);
-        }
 
-        // for (int i = 0; i < 16; i++) {
-        //     printf("COLOR: 0x%lX 0x%X\n", color_list2[i], rgb888_2_rgb565(color_list2[i]));
-        //     // DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
-        //     display_push_color(spi, 200, 300, 200, 300, rgb888_2_rgb565(color_list2[i]));
-        //     delay(800);
-        // }   
+
+
+    // while (1) {
+    //     for (int i = 0; i < color_num; i++) {
+    //         printf("COLOR: 0x%lX 0x%X\n", color_list[i], rgb888_2_rgb565(color_list[i]));
+    //         // DM_Clear(rgb888_2_rgb565(color_list[i]));
+    //         // display_push_color(spi, 0, 100, 0, 440, rgb888_2_rgb565(color_list[i]));
+    //         display_push_color(spi, 0, COL - 1, 0, ROW - 1, rgb888_2_rgb565(color_list[i]));
+    //         delay(800);
+    //     }
+
+    //     // for (int i = 0; i < 16; i++) {
+    //     //     printf("COLOR: 0x%lX 0x%X\n", color_list2[i], rgb888_2_rgb565(color_list2[i]));
+    //     //     // DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
+    //     //     display_push_color(spi, 200, 300, 200, 300, rgb888_2_rgb565(color_list2[i]));
+    //     //     delay(800);
+    //     // }   
         
-    }
+    // }
 
 
 
@@ -1070,7 +1089,7 @@ void app_main()
         for (int i = 0; i < 16; i++) {
             printf("COLOR: 0x%lX 0x%X\n", color_list2[i], rgb888_2_rgb565(color_list2[i]));
             // DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
-            display_push_color(spi, 0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
+            display_push_color(spi, 0, COL-1, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
 
         }
         delay(500);
@@ -1079,7 +1098,7 @@ void app_main()
         for (int i = 0; i < 16; i++) {
             printf("COLOR: 0x%lX 0x%X\n", color_list3[i], rgb888_2_rgb565(color_list3[i]));
             // DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list3[i]));
-            display_push_color(spi, 0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list3[i]));
+            display_push_color(spi, 0, COL-1, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list3[i]));
 
         }
         delay(500);
@@ -1087,27 +1106,27 @@ void app_main()
 
 
         // DM_Clear(0);
-        display_push_color(spi, 0, 367, 0, 447, 0);
+        display_push_color(spi, 0, COL-1, 0, ROW-1, 0);
         uint32_t color = 0;
         for (int i = 0; i < 0xFF; i++) {
             color = (i << 16) | (i << 8) | i;
             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
             // DM_display(0, 367, i * 1, i * 1 + 2, rgb888_2_rgb565(color));
-            display_push_color(spi, 0, 367, i * 1, i * 1 + 2, rgb888_2_rgb565(color));
+            display_push_color(spi, 0, COL-1, i * 1, i * 1 + 2, rgb888_2_rgb565(color));
 
         }
         for (int i = 255; i > 0; i--) {
             color = (i << 16) | (i << 8) | i;
             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
             // DM_display(0, 367, i * 1 + 256, i * 1 + 2 + 256, rgb888_2_rgb565(color));
-            display_push_color(spi, 0, 367, i * 1 + 256, i * 1 + 2 + 256, rgb888_2_rgb565(color));
+            display_push_color(spi, 0, COL-1, i * 1 + 256, i * 1 + 2 + 256, rgb888_2_rgb565(color));
 
         }
 
         delay(500);
 
         // DM_Clear(0);
-        display_push_color(spi, 0, 367, 0, 447, 0);
+        display_push_color(spi, 0, COL-1, 0, ROW-1, 0);
         for (int i = 0; i < 0xFF; i++) {
             color = (i << 16) | (i << 8) | i;
             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
@@ -1129,7 +1148,7 @@ void app_main()
         for (int i = 0; i < color_num; i++) {
             printf("COLOR: 0x%lX 0x%X\n", color_list[i], rgb888_2_rgb565(color_list[i]));
             // DM_Clear(rgb888_2_rgb565(color_list[i]));
-            display_push_color(spi, 0, 367, 0, 447, rgb888_2_rgb565(color_list[i]));
+            display_push_color(spi, 0, COL-1, 0, ROW-1, rgb888_2_rgb565(color_list[i]));
             delay(500);
         }
 
