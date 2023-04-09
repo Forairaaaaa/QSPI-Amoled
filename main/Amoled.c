@@ -17,6 +17,11 @@
 #include <driver/gpio.h>
 #include <driver/spi_master.h>
 
+#include "lvgl.h"
+#include "porting/lv_port_disp.h"
+#include "lv_demos.h"
+
+
 
 #define delay(ms) vTaskDelay(pdMS_TO_TICKS(ms))
 
@@ -353,192 +358,6 @@ uint16_t rgb888_2_rgb565(uint32_t color)
 
 
 
-// void app_main()
-// {
-
-//     gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
-
-//     gpio_set_direction(LCD_CS, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_CS, GPIO_PULLUP_ONLY);
-
-//     gpio_set_direction(LCD_I2, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_I2, GPIO_PULLUP_ONLY);
-
-//     gpio_set_direction(LCD_I3, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_I3, GPIO_PULLUP_ONLY);
-
-//     gpio_set_direction(LCD_CLK, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_CLK, GPIO_PULLUP_ONLY);
-
-//     gpio_set_direction(LCD_I1, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_I1, GPIO_PULLUP_ONLY);
-
-//     gpio_set_direction(LCD_IO0, GPIO_MODE_OUTPUT);
-//     gpio_set_pull_mode(LCD_IO0, GPIO_PULLUP_ONLY);
-
-
-
-
-//     gpio_set_level(LCD_RST, 0);
-//     delay(10);
-//     gpio_set_level(LCD_RST, 1);
-
-
-
-
-
-//     DO0180FS01_Init();
-
-
-//     // DM_Clear(0xFFFF);
-
-
-//     uint32_t color_list[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF};
-//     int color_num = sizeof(color_list) / sizeof(uint32_t);
-
-//     uint32_t color_list2[] = {
-//         0xfff799, 0xffee6f, 0xecd452, 0xb6a014,
-//         0xd5ebe1, 0xb1d5c8, 0x99bcac, 0x80a492,
-//         0x8b7042, 0x775039, 0x5f4321, 0x422517,
-//         0xf3a694, 0xee7959, 0xba5140, 0xc12c1f
-//     };
-//     int color2_num = sizeof(color_list) / sizeof(uint32_t);
-
-//     uint32_t color_list3[] = {
-//         0x88abda, 0x6f94cd, 0x5976ba, 0x2e59a7,
-//         0x98b6c2, 0x7f9faf, 0x66889e, 0x547689,
-//         0xefefef, 0xd8d1c5, 0xc6beb1, 0xac9f8a,
-//         0xc0d09d, 0x938f4c, 0x7f754c, 0x595333
-//     };
-
-
-//     while (1)
-//     {   
-        
-
-//         // #define COL 368
-//         // #define ROW 448
-//         for (int i = 0; i < 16; i++) {
-//             printf("COLOR: 0x%lX 0x%X\n", color_list2[i], rgb888_2_rgb565(color_list2[i]));
-//             DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
-
-//         }
-//         delay(1000);
-
-//         for (int i = 0; i < 16; i++) {
-//             printf("COLOR: 0x%lX 0x%X\n", color_list3[i], rgb888_2_rgb565(color_list3[i]));
-//             DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list3[i]));
-
-//         }
-//         delay(1000);
-
-
-
-//         DM_Clear(0);
-//         uint32_t color = 0;
-//         for (int i = 0; i < 0xFF; i++) {
-//             color = (i << 16) | (i << 8) | i;
-//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-//             DM_display(0, 367, i * 1, i * 1 + 2, rgb888_2_rgb565(color));
-
-//         }
-//         for (int i = 255; i > 0; i--) {
-//             color = (i << 16) | (i << 8) | i;
-//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-//             DM_display(0, 367, i * 1 + 256, i * 1 + 2 + 256, rgb888_2_rgb565(color));
-
-//         }
-
-//         delay(1000);
-
-//         DM_Clear(0);
-//         for (int i = 0; i < 0xFF; i++) {
-//             color = (i << 16) | (i << 8) | i;
-//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-//             DM_display(i * 1, i * 1 + 2, 0, 800, rgb888_2_rgb565(color));
-
-//         }
-//         for (int i = 255; i > 0; i--) {
-//             color = (i << 16) | (i << 8) | i;
-//             printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-//             DM_display(i * 1 + 256, i * 1 + 2 + 256, 0, 800, rgb888_2_rgb565(color));
-
-//         }
-
-//         delay(1000);
-
-
-//         // for (int i = 0; i < color_num; i++) {
-//         //     printf("COLOR: 0x%lX 0x%X\n", color_list[i], rgb888_2_rgb565(color_list[i]));
-//         //     DM_Clear(rgb888_2_rgb565(color_list[i]));
-//         //     delay(1000);
-//         // }
-
-//     }
-
-
-
-
-
-
-
-
-//     while (1)
-//     {
-//         printf("6\n");
-
-//         delay(5000);
-
-
-//     }
-    
-// }
-
-
-
-
-
-
-
-
-// void __SPI_1L_SendData(uint16_t dat)
-// {  
-//   unsigned char i;
-
-//    for(i=0; i<8; i++)			
-//    {   
-//       if( (dat&0x80)!=0 ) SPI_SDA1;
-//       else                SPI_SDA0;
-
-// 		dat  <<= 1;
-
-// 	  SPI_SCL0;//delay_us(2);
-//     SPI_SCL1;	
-		 
-//    }
-	 
-// }
-
-// void __SPI_WriteComm(uint16_t regval)
-// { 
-//     SPI_1L_SendData(0x02);
-//     SPI_1L_SendData(0x00);
-//     SPI_1L_SendData(regval);
-//     SPI_1L_SendData(0x00);//delay_us(2);
-// }
-
-
-
-// static const uint8_t display_cmd[][4] = {
-//     {0x02, 0x00, 0x11, 0x00},
-//     {0x02, 0x00, 0x00, 0x00},
-// }
-
-
-
-
-
 void send_cmd(spi_device_handle_t spi, const uint8_t cmd, bool keep_cs_active)
 {
     esp_err_t ret;
@@ -606,7 +425,7 @@ void send_cmd_qspi(spi_device_handle_t spi, const uint8_t cmd, bool keep_cs_acti
 }
 
 
-void send_data_qspi(spi_device_handle_t spi, const uint8_t *data, int len, bool keep_cs_active)
+void send_data_qspi(spi_device_handle_t spi, const uint16_t *data, int len, bool keep_cs_active)
 {
     esp_err_t ret;
     spi_transaction_t t;
@@ -660,6 +479,19 @@ void send_data_qspi_queue(spi_device_handle_t spi, const uint8_t *data, int len,
 
 
     assert(ret == ESP_OK);
+}
+
+
+void send_data_qspi_queue_finish(spi_device_handle_t spi, int queue_num)
+{
+    spi_transaction_t *rtrans;
+    esp_err_t ret;
+    //Wait for all 6 transactions to be done and get back the results.
+    for (int x=0; x < queue_num; x++) {
+        ret=spi_device_get_trans_result(spi, &rtrans, portMAX_DELAY);
+        assert(ret==ESP_OK);
+        //We could inspect rtrans now if we received any info back. The LCD is treated as write-only, though.
+    }
 }
 
 
@@ -816,7 +648,7 @@ void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend,
     // display_write_block(spi, Xstart + 100, Xend + 100, Ystart, Yend);
 
     /* To eliminate gaps, don't know why */
-    Yend += 2;
+    // Yend += 2;
     display_write_block(spi, Xstart, Xend, Ystart, Yend);
 
 
@@ -857,6 +689,222 @@ void display_push_color(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend,
 }
 
 
+void display_push_buffer(spi_device_handle_t spi, uint16_t Xstart, uint16_t Xend, uint16_t Ystart, uint16_t Yend, uint16_t* buffer)
+{
+    display_write_block(spi, Xstart, Xend, Ystart, Yend);
+
+
+    /* Begin qspi */
+    uint8_t begin_cmd[] = {0x32, 0x00, 0x2C, 0x00};
+    send_data(spi, begin_cmd, 4, true);
+
+
+    int data_size = (Xend - Xstart) * (Yend - Ystart);
+    // printf("%d\n", data_size * 2);
+
+    /* Swap color in big endian */
+    // for (int i = 0; i < data_size; i++) {
+    //     // _full_databuffer[i] = (color >> 8) | (color << 8);
+    //     buffer[i] = (buffer[i] >> 8) | (buffer[i] << 8);
+
+    //     // _full_databuffer[i] = color >> 8;
+    //     // _full_databuffer[i + 1] = color;
+    // }
+
+    /* Can only send 16000 * 2 each time, don't know why */
+    int div_num      = data_size / 16000;
+    int div_last_num = data_size % 16000;
+    // printf("%d %d\n", div_num, div_last_num);
+
+    for (int i = 0; i < div_num; i++) {
+        send_data_qspi(spi, &buffer[16000 * i], 16000 * 2, true);
+        // send_data_qspi_queue(spi, &buffer[16000 * i], 16000 * 2, true);
+    }
+    if (div_last_num != 0) {
+        send_data_qspi(spi, &buffer[16000 * div_num], div_last_num * 2, true);
+        // send_data_qspi_queue(spi, &buffer[16000 * div_num], div_last_num * 2, true);
+    }
+
+    /* Stop qspi */
+    begin_cmd[2] = 0x00;
+    send_data(spi, begin_cmd, 4, false);
+
+
+    // send_data_qspi_queue_finish(spi, 11);
+}
+
+
+
+
+
+
+static spi_device_handle_t _spi;
+
+
+/*Flush the content of the internal buffer the specific area on the display
+ *You can use DMA or any hardware acceleration to do this operation in the background but
+ *'lv_disp_flush_ready()' has to be called when finished.*/
+static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
+{
+    // if(disp_flush_enabled) {
+    //     /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
+
+    //     int32_t x;
+    //     int32_t y;
+    //     for(y = area->y1; y <= area->y2; y++) {
+    //         for(x = area->x1; x <= area->x2; x++) {
+    //             /*Put a pixel to the display. For example:*/
+    //             /*put_px(x, y, *color_p)*/
+    //             color_p++;
+    //         }
+    //     }
+    // }
+
+    // uint32_t w = ( area->x2 - area->x1 + 1 );
+    // uint32_t h = ( area->y2 - area->y1 + 1 );
+    // // _lcd->startWrite();
+    // _lcd->setAddrWindow( area->x1, area->y1, w, h );
+    // // _lcd->pushColors( ( uint16_t * )&color_p->full, w * h, true);
+    // _lcd->startWrite();
+    // _lcd->writePixels((uint16_t*)&color_p->full, w * h, true);
+    // _lcd->endWrite(); 
+    // // _lcd->endWrite();
+
+
+    // display_push_color(_spi, area->x1, area->x2, area->y1, area->y2, color_p->full);
+    // printf("%d %d %d %d 0x%X\n", area->x1, area->x2, area->y1, area->y2, color_p->full);
+    display_push_buffer(_spi, area->x1, area->x2, area->y1, area->y2, color_p);
+
+
+
+    /*IMPORTANT!!!
+     *Inform the graphics library that you are ready with the flushing*/
+    lv_disp_flush_ready(disp_drv);
+}
+
+
+
+void lvgl_init()
+{
+    lv_init();
+
+
+
+    /*-------------------------
+     * Initialize your display
+     * -----------------------*/
+
+    /*-----------------------------
+     * Create a buffer for drawing
+     *----------------------------*/
+
+    /**
+     * LVGL requires a buffer where it internally draws the widgets.
+     * Later this buffer will passed to your display driver's `flush_cb` to copy its content to your display.
+     * The buffer has to be greater than 1 display row
+     *
+     * There are 3 buffering configurations:
+     * 1. Create ONE buffer:
+     *      LVGL will draw the display's content here and writes it to your display
+     *
+     * 2. Create TWO buffer:
+     *      LVGL will draw the display's content to a buffer and writes it your display.
+     *      You should use DMA to write the buffer's content to the display.
+     *      It will enable LVGL to draw the next part of the screen to the other buffer while
+     *      the data is being sent form the first buffer. It makes rendering and flushing parallel.
+     *
+     * 3. Double buffering
+     *      Set 2 screens sized buffers and set disp_drv.full_refresh = 1.
+     *      This way LVGL will always provide the whole rendered screen in `flush_cb`
+     *      and you only need to change the frame buffer's address.
+     */
+
+    // /* Example for 1) */
+    // static lv_disp_draw_buf_t draw_buf_dsc_1;
+    // static lv_color_t buf_1[MY_DISP_HOR_RES * 10];                          /*A buffer for 10 rows*/
+    // lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, MY_DISP_HOR_RES * 10);   /*Initialize the display buffer*/
+
+    // /* Example for 2) */
+    // static lv_disp_draw_buf_t draw_buf_dsc_2;
+    // static lv_color_t buf_2_1[MY_DISP_HOR_RES * 10];                        /*A buffer for 10 rows*/
+    // static lv_color_t buf_2_2[MY_DISP_HOR_RES * 10];                        /*An other buffer for 10 rows*/
+    // lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, MY_DISP_HOR_RES * 10);   /*Initialize the display buffer*/
+
+    /* Example for 3) also set disp_drv.full_refresh = 1 below*/
+    static lv_disp_draw_buf_t draw_buf_dsc_3;
+    // static lv_color_t buf_3_1[MY_DISP_HOR_RES * MY_DISP_VER_RES];            /*A screen sized buffer*/
+    // static lv_color_t buf_3_2[MY_DISP_HOR_RES * MY_DISP_VER_RES];            /*Another screen sized buffer*/
+
+    /* Try to get buffer from PSRAM */
+    lv_color_t * buf_3_1 = (lv_color_t *)heap_caps_malloc(MY_DISP_HOR_RES * MY_DISP_VER_RES * sizeof(lv_color_t), MALLOC_CAP_SPIRAM);
+    lv_color_t * buf_3_2 = (lv_color_t *)heap_caps_malloc(MY_DISP_HOR_RES * MY_DISP_VER_RES * sizeof(lv_color_t), MALLOC_CAP_SPIRAM);
+    /* If failed */
+    if ((buf_3_1 == NULL) || (buf_3_2 == NULL)) {
+        printf("[LVGL] malloc buffer from PSRAM fialed\n");
+        while (1)
+            delay(1000);
+    } else {
+        printf("[LVGL] malloc buffer from PSRAM successful\n");
+        // printf("[LVGL] free PSRAM: %d\r\n", ESP.getFreePsram());
+    }
+
+    lv_disp_draw_buf_init(&draw_buf_dsc_3, buf_3_1, buf_3_2,
+                          MY_DISP_VER_RES * LV_VER_RES_MAX);   /*Initialize the display buffer*/
+
+    /*-----------------------------------
+     * Register the display in LVGL
+     *----------------------------------*/
+
+    static lv_disp_drv_t disp_drv;                         /*Descriptor of a display driver*/
+    lv_disp_drv_init(&disp_drv);                    /*Basic initialization*/
+
+    /*Set up the functions to access to your display*/
+
+    /*Set the resolution of the display*/
+    disp_drv.hor_res = MY_DISP_HOR_RES;
+    disp_drv.ver_res = MY_DISP_VER_RES;
+
+    /*Used to copy the buffer's content to the display*/
+    disp_drv.flush_cb = disp_flush;
+
+    /*Set a display buffer*/
+    disp_drv.draw_buf = &draw_buf_dsc_3;
+
+    /*Required for Example 3)*/
+    // disp_drv.full_refresh = 1;
+
+    /* Fill a memory array with a color if you have GPU.
+     * Note that, in lv_conf.h you can enable GPUs that has built-in support in LVGL.
+     * But if you have a different GPU you can use with this callback.*/
+    //disp_drv.gpu_fill_cb = gpu_fill;
+
+    /*Finally register the driver*/
+    lv_disp_drv_register(&disp_drv);
+
+
+
+
+    // lv_demo_stress();
+    lv_demo_benchmark();
+
+
+
+
+    while (1) {
+        lv_timer_handler();
+        delay(2);
+    }
+
+
+
+}
+
+
+
+
+
+
+
 
 
 
@@ -878,6 +926,7 @@ void app_main()
 
     esp_err_t ret;
     spi_device_handle_t spi;
+
     spi_bus_config_t buscfg = {
         // .miso_io_num=PIN_NUM_MISO,
         // .mosi_io_num=PIN_NUM_MOSI,
@@ -919,7 +968,7 @@ void app_main()
         // .clock_speed_hz = SPI_MASTER_FREQ_80M,
         .mode           = 1,
         .spics_io_num   = LCD_CS,
-        .queue_size     = 10,
+        .queue_size     = 12,
         .flags          = SPI_DEVICE_HALFDUPLEX,
 
 
@@ -937,7 +986,7 @@ void app_main()
     ret = spi_bus_add_device(SPI2_HOST, &devcfg, &spi);
     ESP_ERROR_CHECK(ret);
 
-
+    _spi = spi;
 
 
 
@@ -1037,7 +1086,7 @@ void app_main()
 
 
 
-
+    lvgl_init();
 
 
     uint32_t color_list[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0x000000};
@@ -1157,159 +1206,6 @@ void app_main()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    // gpio_reset_pin(LCD_CS);
-    // gpio_set_direction(LCD_CS, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_CS, GPIO_PULLUP_ONLY);
-
-    // gpio_reset_pin(LCD_I2);
-    // gpio_set_direction(LCD_I2, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_I2, GPIO_PULLUP_ONLY);
-
-    // gpio_reset_pin(LCD_I3);
-    // gpio_set_direction(LCD_I3, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_I3, GPIO_PULLUP_ONLY);
-
-    // gpio_reset_pin(LCD_CLK);
-    // gpio_set_direction(LCD_CLK, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_CLK, GPIO_PULLUP_ONLY);
-
-    // gpio_reset_pin(LCD_I1);
-    // gpio_set_direction(LCD_I1, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_I1, GPIO_PULLUP_ONLY);
-
-    // gpio_reset_pin(LCD_IO0);
-    // gpio_set_direction(LCD_IO0, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_IO0, GPIO_PULLUP_ONLY);
-
-
-    // #if USE_SPI
-    // #else
-    // gpio_reset_pin(LCD_RST);
-    // gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
-    // gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
-    // gpio_set_level(LCD_RST, 0);
-    // delay(10);
-    // gpio_set_level(LCD_RST, 1);
-
-    // DO0180FS01_Init();
-    // #endif
-
-
-
-    // // delay(200);
-    // // gpio_reset_pin(LCD_RST);
-    // // gpio_set_direction(LCD_RST, GPIO_MODE_OUTPUT);
-    // // gpio_set_pull_mode(LCD_RST, GPIO_PULLUP_ONLY);
-    // // gpio_set_level(LCD_RST, 0);
-    // // delay(10);
-    // // gpio_set_level(LCD_RST, 1);
-
-    // // DO0180FS01_Init();
-    // // while (1);
-
-
-
-
-    // // DM_Clear(0xFFFF);
-
-
-    // uint32_t color_list[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF};
-    // int color_num = sizeof(color_list) / sizeof(uint32_t);
-
-    // uint32_t color_list2[] = {
-    //     0xfff799, 0xffee6f, 0xecd452, 0xb6a014,
-    //     0xd5ebe1, 0xb1d5c8, 0x99bcac, 0x80a492,
-    //     0x8b7042, 0x775039, 0x5f4321, 0x422517,
-    //     0xf3a694, 0xee7959, 0xba5140, 0xc12c1f
-    // };
-    // int color2_num = sizeof(color_list) / sizeof(uint32_t);
-
-    // uint32_t color_list3[] = {
-    //     0x88abda, 0x6f94cd, 0x5976ba, 0x2e59a7,
-    //     0x98b6c2, 0x7f9faf, 0x66889e, 0x547689,
-    //     0xefefef, 0xd8d1c5, 0xc6beb1, 0xac9f8a,
-    //     0xc0d09d, 0x938f4c, 0x7f754c, 0x595333
-    // };
-
-
-    // while (1)
-    // {   
-        
-
-    //     // #define COL 368
-    //     // #define ROW 448
-    //     for (int i = 0; i < 16; i++) {
-    //         printf("COLOR: 0x%lX 0x%X\n", color_list2[i], rgb888_2_rgb565(color_list2[i]));
-    //         DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list2[i]));
-
-    //     }
-    //     delay(1000);
-    //     // while (1);
-
-    //     for (int i = 0; i < 16; i++) {
-    //         printf("COLOR: 0x%lX 0x%X\n", color_list3[i], rgb888_2_rgb565(color_list3[i]));
-    //         DM_display(0, 367, i * 27, i * 28 + 28, rgb888_2_rgb565(color_list3[i]));
-
-    //     }
-    //     delay(1000);
-
-
-
-    //     DM_Clear(0);
-    //     uint32_t color = 0;
-    //     for (int i = 0; i < 0xFF; i++) {
-    //         color = (i << 16) | (i << 8) | i;
-    //         printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-    //         DM_display(0, 367, i * 1, i * 1 + 2, rgb888_2_rgb565(color));
-
-    //     }
-    //     for (int i = 255; i > 0; i--) {
-    //         color = (i << 16) | (i << 8) | i;
-    //         printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-    //         DM_display(0, 367, i * 1 + 256, i * 1 + 2 + 256, rgb888_2_rgb565(color));
-
-    //     }
-
-    //     delay(1000);
-
-    //     DM_Clear(0);
-    //     for (int i = 0; i < 0xFF; i++) {
-    //         color = (i << 16) | (i << 8) | i;
-    //         printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-    //         DM_display(i * 1, i * 1 + 2, 0, 800, rgb888_2_rgb565(color));
-
-    //     }
-    //     for (int i = 255; i > 0; i--) {
-    //         color = (i << 16) | (i << 8) | i;
-    //         printf("COLOR: 0x%lX 0x%X\n", color, rgb888_2_rgb565(color));
-    //         DM_display(i * 1 + 256, i * 1 + 2 + 256, 0, 800, rgb888_2_rgb565(color));
-
-    //     }
-
-    //     delay(1000);
-
-
-    //     // for (int i = 0; i < color_num; i++) {
-    //     //     printf("COLOR: 0x%lX 0x%X\n", color_list[i], rgb888_2_rgb565(color_list[i]));
-    //     //     DM_Clear(rgb888_2_rgb565(color_list[i]));
-    //     //     delay(1000);
-    //     // }
-
-    // }
 
 }
 
